@@ -8,10 +8,11 @@ namespace SignalRTut.Hubs
 {
     public class MyHub : Hub
     {
-        public void Announce(string message)
+        public async Task Announce(string user,string message)
         {
-            Console.WriteLine(message);
-            Clients.All.SendAsync("ReceiveMessage", message);
+            Console.WriteLine(user," ", message);
+            
+            await Clients.All.SendAsync("ReceiveMessage", user,message);
         }
     }
 }

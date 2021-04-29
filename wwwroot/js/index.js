@@ -3,9 +3,9 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/hub").build();
 
 
-connection.on("ReceiveMessage", function (message) {
+connection.on("ReceiveMessage", function (user,message) {
     var li = $("<li>");
-    li.text(message);
+    li.text(`${user} : ${message}`);
     $("#msgs").append(li);
 });
 
@@ -16,8 +16,9 @@ connection.start().then(function () {
 });
 
 document.getElementById("sendBtn").addEventListener("click", function (event) {
-    
-    connection.invoke("Announce", "Wassup!").then(function () {
+    var userName = $("#userName").val();
+    var messageToSend = $("#msg").val();
+    connection.invoke("Announce", userName, messageToSend).then(function () {
         console.log("Success!");
     }).catch(function (err) {
         return console.error(err.toString());
