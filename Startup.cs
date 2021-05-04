@@ -36,7 +36,7 @@ namespace SignalRTut
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
-
+            services.AddSingleton<OnlineUsers>();
             services.AddSignalR();
         }
 

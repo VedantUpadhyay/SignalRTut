@@ -2,11 +2,23 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/hub").build();
 
-
+$("#getOnlineUsers").click(function () {
+    connection.invoke("GetUsers").then(function (response) {
+        console.log(response);
+    })
+});
 connection.on("ReceiveMessage", function (user,message) {
     var li = $("<li>");
     li.text(`${user} : ${message}`);
     $("#msgs").append(li);
+});
+
+connection.on("printConn", function (connTime) {
+    console.log("Connected @ " + connTime);
+});
+
+connection.on("printDisconn", function (disConnTime) {
+    console.log("Disconnected @ " + disConnTime);
 });
 
 connection.start().then(function () {
